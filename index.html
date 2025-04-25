@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projeto de Vida com Estratégia</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+      color: #333;
+    }
+    header {
+      background-color: #007BFF;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+    main {
+      padding: 20px;
+    }
+    section {
+      margin-bottom: 20px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 5px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    footer {
+      text-align: center;
+      padding: 10px;
+      background-color: #007BFF;
+      color: #fff;
+    }
+    a {
+      color: #fff;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Projeto de Vida: Planejando Sonhos com Visualização e Estratégia</h1>
+    <p>Organize seus planos e veja seus objetivos tomando forma.</p>
+  </header>
+  <main>
+    <section>
+      <h2>Adicione suas metas</h2>
+      <form id="metaForm">
+        <input type="text" id="novaMeta" placeholder="Digite sua meta" required>
+        <button type="button" onclick="adicionarMeta()">Adicionar Meta</button>
+      </form>
+      <ul id="listaMetas"></ul>
+    </section>
+    <section>
+      <h2>Seu Progresso</h2>
+      <canvas id="graficoProgresso"></canvas>
+    </section>
+    <section>
+      <h2>Frase do Dia</h2>
+      <p id="fraseMotivacional"></p>
+    </section>
+    <section>
+      <h2>Calendário</h2>
+      <input type="date" id="dataMeta">
+      <button type="button" onclick="adicionarData()">Adicionar Data</button>
+      <ul id="listaDatas"></ul>
+    </section>
+    <section>
+      <button onclick="baixarPlanejamento()">Baixar Planejamento</button>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Projeto de Vida Estratégico</p>
+    <p><a href="mailto:contato@projetodevida.com">Entre em contato</a></p>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Adicionar metas ao painel
+    function adicionarMeta() {
+      const metaInput = document.getElementById("novaMeta").value;
+      const listaMetas = document.getElementById("listaMetas");
+      const metaItem = document.createElement("li");
+      metaItem.textContent = metaInput;
+      listaMetas.appendChild(metaItem);
+      document.getElementById("novaMeta").value = "";
+    }
+
+    // Gráfico de progresso
+    const ctx = document.getElementById('graficoProgresso').getContext('2d');
+    const grafico = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Concluído', 'Pendente'],
+        datasets: [{
+          label: 'Metas',
+          data: [3, 7], // Exemplo de progresso
+          backgroundColor: ['#4caf50', '#f44336']
+        }]
+      }
+    });
+
+    // Frases motivacionais
+    const frases = [
+      "O sucesso é a soma de pequenos esforços repetidos dia após dia.",
+      "Planeje seus passos, mas sempre se permita sonhar alto.",
+      "A disciplina é o que transforma metas em realizações.",
+      "Comece onde você está. Use o que você tem. Faça o que você pode."
+    ];
+    const fraseAleatoria = frases[Math.floor(Math.random() * frases.length)];
+    document.getElementById("fraseMotivacional").textContent = fraseAleatoria;
+
+    // Adicionar datas ao calendário
+    function adicionarData() {
+      const dataInput = document.getElementById("dataMeta").value;
+      const listaDatas = document.getElementById("listaDatas");
+      const dataItem = document.createElement("li");
+      dataItem.textContent = "Meta para: " + dataInput;
+      listaDatas.appendChild(dataItem);
+      document.getElementById("dataMeta").value = "";
+    }
+
+    // Baixar planejamento como texto
+    function baixarPlanejamento() {
+      const metas = document.querySelectorAll("#listaMetas li");
+      let texto = "Planejamento de Metas:\n";
+      metas.forEach(meta => {
+        texto += "- " + meta.textContent + "\n";
+      });
+      const blob = new Blob([texto], { type: "text/plain" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "planejamento.txt";
+      link.click();
+    }
+  </script>
+</body>
+</html>
